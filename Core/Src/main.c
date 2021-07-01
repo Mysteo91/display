@@ -19,6 +19,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "tim.h"
 #include "usart.h"
 #include "gpio.h"
 
@@ -87,15 +88,24 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_USART2_UART_Init();
+  MX_TIM3_Init();
+  DBGMCU->APB1FZR1 |= DBGMCU_APB1FZR1_DBG_TIM3_STOP;
   /* USER CODE BEGIN 2 */
-    initDisplay();
-    put_char('!');
-
+   // initDisplay();
+    HAL_TIM_OC_Start_IT(&htim3, TIM_CHANNEL_1); // генерирует прерывание
+    put_char('B');
+//HAL_TIM_OC_Start(&htim1, TIM_CHANNEL_1); // не генерирует прерывание
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+  uint8_t jj = 32;
+  while (1)
+  {
+    /* USER CODE END WHILE */
 
+    /* USER CODE BEGIN 3 */
+  }
   /* USER CODE END 3 */
 }
 
