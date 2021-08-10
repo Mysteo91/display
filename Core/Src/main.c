@@ -97,7 +97,7 @@ int main(void)
   MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
   initDisplay();
-  put_char('!');
+  put_string((uint8_t*)"Hello", 5);
   /* USER CODE END 2 */
 
   /* Infinite loop */

@@ -14,4 +14,5 @@
 void initDisplay (void);
 void resetDisplay (void);
 void put_char (uint8_t);
+void put_string (uint8_t* str, uint8_t size);
 #endif //DISPLAY_LED_H

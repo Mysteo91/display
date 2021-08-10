@@ -31,7 +31,13 @@ void put_char (uint8_t ch)
     HAL_TIM_Base_Start_IT(&htim2);
 
 }
-
+void put_string (uint8_t* str, uint8_t size)
+{
+  for (uint8_t i = size; i > 0; i --)
+  {
+      put_char(str[i-1]);
+  }
+}
 
 void initDisplay (void)
 {
@@ -58,7 +64,7 @@ void resetDisplay (void)
 }
 void updateDisplay(void)
 {
-    HAL_SPI_Transmit(&hspi1, workingField, NUM_DISPLAYS + 1, 100);
+    HAL_SPI_Transmit(&hspi1, workingField, NUM_DISPLAYS + 1, 1);
     HAL_GPIO_WritePin(RCLK_GPIO_Port, RCLK_Pin, GPIO_PIN_SET);
     HAL_GPIO_WritePin(RCLK_GPIO_Port, RCLK_Pin, GPIO_PIN_RESET);
 }
