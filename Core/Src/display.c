@@ -17,20 +17,9 @@ uint8_t buf[NUM_DISPLAYS][6];
 uint8_t cycle ;
 uint8_t workingField[NUM_DISPLAYS+1];
 uint8_t inputDisplay = 0;
-uint8_t takt = 0;
 
 
-void put_char (uint8_t ch)
-{
-    HAL_TIM_Base_Stop_IT(&htim2);
-    for (uint8_t i = 1; i < 6; i++)
-    {
-        buf[inputDisplay][i] = ~ (Font5x7[((ch - 32) * 5) + i - 1])  ;
-    }
-    inputDisplay++;
-    HAL_TIM_Base_Start_IT(&htim2);
 
-}
 
 
 void initDisplay (void)
@@ -49,7 +38,7 @@ void resetDisplay (void)
     HAL_Delay(1);
     HAL_GPIO_WritePin(SRCLR_GPIO_Port, SRCLR_Pin, GPIO_PIN_SET);
     memset(buf, 0xFF ,sizeof(buf));
-    memset(workingField, 0xFF, sizeof (workingField) -1);
+    memset(workingField, 0x00, sizeof (workingField) -1);
     workingField[NUM_DISPLAYS] = 0xFE;
     HAL_SPI_Transmit(&hspi1, workingField, NUM_DISPLAYS + 1, 100);
     HAL_GPIO_WritePin(RCLK_GPIO_Port, RCLK_Pin, GPIO_PIN_SET);
@@ -58,10 +47,18 @@ void resetDisplay (void)
 }
 void updateDisplay(void)
 {
-    HAL_SPI_Transmit(&hspi1, workingField, NUM_DISPLAYS + 1, 100);
+     HAL_SPI_Transmit(&hspi1, workingField, NUM_DISPLAYS + 1, 100);
     HAL_GPIO_WritePin(RCLK_GPIO_Port, RCLK_Pin, GPIO_PIN_SET);
     HAL_GPIO_WritePin(RCLK_GPIO_Port, RCLK_Pin, GPIO_PIN_RESET);
 }
+
+
+
+
+
+uint8_t takt = 0;
+
+
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
@@ -69,10 +66,6 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
     if (htim->Instance == TIM2)
     {
         if (takt == 6) takt = 0;
-        for (uint8_t i = 0; i < NUM_DISPLAYS; i ++)
-        {
-            workingField[i] = buf[i][takt];
-        }
         workingField[NUM_DISPLAYS] = (uint8_t) ~(1<<takt);
         updateDisplay();
         takt++;
