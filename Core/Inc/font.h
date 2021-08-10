@@ -1,9 +1,3 @@
-//
-// Created by arbin on 29.06.2021.
-//
-
-#ifndef DISPLAY_FONT_H
-#define DISPLAY_FONT_H
 
 /*! \file font5x7.h \brief Graphic LCD Font (Ascii Characters). */
 //*****************************************************************************
@@ -125,4 +119,3 @@ const static uint8_t Font5x7[] = {
 
 #endif
 
-#endif //DISPLAY_FONT_H
