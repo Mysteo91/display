@@ -95,9 +95,10 @@ int main(void)
   MX_USART1_UART_Init();
   MX_USB_DEVICE_Init();
   MX_TIM2_Init();
+  MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
   initDisplay();
-  put_string((uint8_t*)"Hello", 5);
+  put_string((uint8_t*)"     ", 5);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -105,7 +106,7 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-
+    updateField();
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */

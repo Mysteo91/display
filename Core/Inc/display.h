@@ -10,7 +10,7 @@
 #define RESET_DISPLAY_PIN GPIO_PIN_1
 #define RESET_DISPLAY_PORT GPIOC
 #define NUM_DISPLAYS 8
-
+void updateField (void);
 void initDisplay (void);
 void resetDisplay (void);
 void put_char (uint8_t);
