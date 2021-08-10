@@ -98,7 +98,7 @@ int main(void)
   MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
   initDisplay();
-  put_string((uint8_t*)"     ", 5);
+  put_string((uint8_t*)"        ", 8);
   /* USER CODE END 2 */
 
   /* Infinite loop */

@@ -65,7 +65,7 @@ void resetDisplay (void)
 }
 void updateDisplay(void)
 {
-    HAL_SPI_Transmit(&hspi1, workingField, NUM_DISPLAYS + 1, 1);
+    HAL_SPI_Transmit(&hspi1, workingField, NUM_DISPLAYS + 1, 100);
     HAL_GPIO_WritePin(RCLK_GPIO_Port, RCLK_Pin, GPIO_PIN_SET);
     HAL_GPIO_WritePin(RCLK_GPIO_Port, RCLK_Pin, GPIO_PIN_RESET);
 }
@@ -80,6 +80,7 @@ void updateField (void)
             workingField[i] = buf[i][takt];
         }
         workingField[NUM_DISPLAYS] = (uint8_t) ~(1<<takt);
+        updateDisplay();
     }
 }
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
@@ -88,7 +89,6 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
     if (htim->Instance == TIM2)
     {
         if (takt == 6) takt = 0;
-        updateDisplay();
         takt++;
 
     }
@@ -97,5 +97,10 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 
 
     }
+
+}
+
+void HAL_SPI_TxRxCpltCallback(SPI_HandleTypeDef *hspi)
+{
 
 }
