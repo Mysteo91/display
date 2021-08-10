@@ -97,8 +97,11 @@ int main(void)
   MX_TIM2_Init();
   MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
+  DBGMCU->CR |= DBGMCU_CR_DBG_TIM2_STOP;
+  DBGMCU->CR |= DBGMCU_CR_DBG_TIM3_STOP;
   initDisplay();
-  put_string((uint8_t*)"        ", 8);
+  put_string((uint8_t*)"Hello! 123 321 ?", 16);
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
