@@ -16,7 +16,7 @@
 uint8_t inputString[256];
 uint8_t buf[NUM_DISPLAYS][6];
 uint8_t workingField[NUM_DISPLAYS+1];
-uint8_t inDisplay = 0;
+uint8_t outChars = 0;
 uint8_t takt = 0;
 uint8_t oldTakt = 0;
 uint8_t sec = 0;
@@ -30,21 +30,40 @@ void running_str (void)
 {
     if (runningStrEnable == 1)
     {
-        put_char(inputString[inDisplay]);
+        if (outChars >= inputStrSize) put_char(' ');
+            else put_char(inputString[outChars]);
     }
 }
 void put_char (uint8_t ch)
 {
     HAL_TIM_Base_Stop_IT(&htim2);
-    if (inDisplay != 0)
+    if (outChars != 0)
     {
-        memcpy(buf[inDisplay] , buf[inDisplay - 1], 5);
+        if (outChars >= NUM_DISPLAYS - 1)
+        {
+            for (uint8_t i = NUM_DISPLAYS-1; i > 0; i --)
+            {
+                memcpy(buf[i] , buf[i-1], 6);
+            }
+        }
+        else
+        {
+            for (uint8_t i = outChars; i > 0; i --)
+            {
+                memcpy(buf[i] , buf[i-1], 6);
+            }
+        }
+
     }
     for (uint8_t i = 1; i < 6; i++)
     {
-        buf[inDisplay][i] = ~ (Font5x7[((ch - 32) * 5) + i - 1])  ;
+        buf[0][i] = ~ (Font5x7[((ch - 32) * 5) + i - 1])  ;
     }
-    inDisplay++;
+    outChars++;
+    if (outChars > inputStrSize + 4)
+    {
+        resetDisplay();
+    }
     HAL_TIM_Base_Start_IT(&htim2);
 
 }
@@ -70,7 +89,7 @@ void initDisplay (void)
 }
 void resetDisplay (void)
 {
-    inDisplay = 0;
+    outChars = 0;
     takt = 0;
     oldTakt = 0;
     HAL_GPIO_WritePin(SRCLR_GPIO_Port, SRCLR_Pin, GPIO_PIN_RESET);

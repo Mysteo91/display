@@ -100,7 +100,7 @@ int main(void)
   DBGMCU->CR |= DBGMCU_CR_DBG_TIM2_STOP;
   DBGMCU->CR |= DBGMCU_CR_DBG_TIM3_STOP;
   initDisplay();
-  put_string((uint8_t*)"Hello! 123 321 ?", 16);
+  put_string((uint8_t*)"Hello! 123456789qwertQWERTasdASD !", 34);
 
   /* USER CODE END 2 */
 
