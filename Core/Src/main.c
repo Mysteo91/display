@@ -48,7 +48,7 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-
+uint8_t uartBuf[256];
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -99,8 +99,11 @@ int main(void)
   /* USER CODE BEGIN 2 */
   DBGMCU->CR |= DBGMCU_CR_DBG_TIM2_STOP;
   DBGMCU->CR |= DBGMCU_CR_DBG_TIM3_STOP;
-  initDisplay();
-  put_string((uint8_t*)"Hello! 123456789qwertQWERTasdASD !", 34);
+/*    HAL_UART_Receive_DMA(&huart1, uartBuf, sizeof(uartBuf));
+    __HAL_UART_ENABLE_IT(&huart1,UART_IT_IDLE);*/
+    initDisplay();
+    put_string((uint8_t*)"asdasdasd123", 12);
+
 
   /* USER CODE END 2 */
 
@@ -109,7 +112,7 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-    updateField();
+
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
@@ -161,6 +164,24 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
+void USART1_IRQHandler(void)
+{
+    /* USER CODE BEGIN USART1_IRQn 0 */
+
+    /* USER CODE END USART1_IRQn 0 */
+    HAL_UART_IRQHandler(&huart1);
+    /* USER CODE BEGIN USART1_IRQn 1 */
+    if (__HAL_UART_GET_FLAG(&huart1, UART_FLAG_IDLE) == 1)
+    {
+        put_string(uartBuf, sizeof(uartBuf)-huart1.hdmarx->Instance->CNDTR);
+        HAL_UART_DMAStop(&huart1);
+        USART1->SR;
+        USART1->DR;
+        //__HAL_UART_DISABLE_IT(&huart1,UART_IT_IDLE);
+        HAL_UART_Receive_DMA(&huart1, (uint8_t*) uartBuf, sizeof(uartBuf));
+    }
+    /* USER CODE END USART1_IRQn 1 */
+}
 
 /* USER CODE END 4 */
 

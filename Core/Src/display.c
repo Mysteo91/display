@@ -70,6 +70,13 @@ void put_char (uint8_t ch)
 void put_string (uint8_t* str, uint8_t size)
 {
     if (size > 8) runningStrEnable = 1;
+    else
+    {
+        for (uint8_t i = 0; i < size; i++)
+        {
+            put_char(str[i]);
+        }
+    }
     HAL_TIM_Base_Stop_IT(&htim2);
     inputStrSize = size;
     memcpy(inputString, str, inputStrSize);
