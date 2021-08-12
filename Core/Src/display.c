@@ -36,6 +36,7 @@ void running_str (void)
 }
 void put_char (uint8_t ch)
 {
+    if (ch > 127) ch = ch - 64;
     HAL_TIM_Base_Stop_IT(&htim2);
     if (outChars != 0)
     {
@@ -60,7 +61,7 @@ void put_char (uint8_t ch)
         buf[0][i] = ~ (Font5x7[((ch - 32) * 5) + i - 1])  ;
     }
     outChars++;
-    if (outChars > inputStrSize + 4)
+    if (outChars > inputStrSize + 8)
     {
         resetDisplay();
     }
@@ -69,9 +70,11 @@ void put_char (uint8_t ch)
 }
 void put_string (uint8_t* str, uint8_t size)
 {
-    if (size > 8) runningStrEnable = 1;
+    resetDisplay();
+    if (size > NUM_DISPLAYS) runningStrEnable = 1;
     else
     {
+        runningStrEnable = 0;
         for (uint8_t i = 0; i < size; i++)
         {
             put_char(str[i]);
@@ -100,7 +103,6 @@ void resetDisplay (void)
     takt = 0;
     oldTakt = 0;
     HAL_GPIO_WritePin(SRCLR_GPIO_Port, SRCLR_Pin, GPIO_PIN_RESET);
-    HAL_Delay(1);
     HAL_GPIO_WritePin(SRCLR_GPIO_Port, SRCLR_Pin, GPIO_PIN_SET);
     memset(buf, 0xFF ,sizeof(buf));
     memset(workingField, 0xFF, sizeof (workingField) -1);
