@@ -39,8 +39,20 @@
 			<type>1</type>
 			<location>PARENT-2-PROJECT_LOC/Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_ioreq.c</location>
 		</link><link>
-			<name>USB_Device_Library/usbd_cdc.c</name>
+			<name>USB_Device_Library/usbd_msc.c</name>
 			<type>1</type>
-			<location>PARENT-2-PROJECT_LOC/Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Src/usbd_cdc.c</location>
+			<location>PARENT-2-PROJECT_LOC/Middlewares/ST/STM32_USB_Device_Library/Class/MSC/Src/usbd_msc.c</location>
+		</link><link>
+			<name>USB_Device_Library/usbd_msc_bot.c</name>
+			<type>1</type>
+			<location>PARENT-2-PROJECT_LOC/Middlewares/ST/STM32_USB_Device_Library/Class/MSC/Src/usbd_msc_bot.c</location>
+		</link><link>
+			<name>USB_Device_Library/usbd_msc_data.c</name>
+			<type>1</type>
+			<location>PARENT-2-PROJECT_LOC/Middlewares/ST/STM32_USB_Device_Library/Class/MSC/Src/usbd_msc_data.c</location>
+		</link><link>
+			<name>USB_Device_Library/usbd_msc_scsi.c</name>
+			<type>1</type>
+			<location>PARENT-2-PROJECT_LOC/Middlewares/ST/STM32_USB_Device_Library/Class/MSC/Src/usbd_msc_scsi.c</location>
 		</link></linkedResources>
 </projectDescription>

@@ -111,16 +111,17 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+      updateField();
+      if (rxComplete == 1 && HAL_UART_GetState(&huart1) == HAL_UART_STATE_READY){
+          rxComplete = 0;
+          uint8_t size = sizeof(uartBuf)-huart1.hdmarx->Instance->CNDTR;
+          put_string(uartBuf, size);
+          memset(uartBuf, 0, sizeof(uartBuf));
+          HAL_UART_DMAStop(&huart1);
+          HAL_UART_Receive_DMA(&huart1, uartBuf, sizeof(uartBuf));
+      }
     /* USER CODE END WHILE */
-    updateField();
-    if (rxComplete == 1 && HAL_UART_GetState(&huart1) == HAL_UART_STATE_READY){
-        rxComplete = 0;
-        uint8_t size = sizeof(uartBuf)-huart1.hdmarx->Instance->CNDTR;
-        put_string(uartBuf, size);
-        memset(uartBuf, 0, sizeof(uartBuf));
-        HAL_UART_DMAStop(&huart1);
-        HAL_UART_Receive_DMA(&huart1, uartBuf, sizeof(uartBuf));
-    }
+
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */

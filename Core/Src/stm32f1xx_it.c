@@ -293,6 +293,7 @@ void SPI1_IRQHandler(void)
   * @brief This function handles USART1 global interrupt.
   */
 
+
 /* USER CODE BEGIN 1 */
 
 /* USER CODE END 1 */
